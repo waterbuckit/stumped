@@ -1,3 +1,4 @@
+import { PencilAltIcon } from "@heroicons/react/solid";
 import type { NextPage } from "next";
 import Head from "next/head";
 import {
@@ -62,7 +63,7 @@ const Home: NextPage = () => {
             type="url"
             error={createURLError?.data?.zodError?.fieldErrors["url"]?.[0]}
           />
-          <Button type="submit" loading={isLoading}>
+          <Button type="submit" loading={isLoading} icon={<PencilAltIcon />} >
             Stump it!
           </Button>
         </form>
