@@ -11,25 +11,28 @@ const generateUrl = (): string =>
     .map(() => chars[Math.floor(Math.random() * chars.length)])
     .join("");
 
-const createUrl = async (input: { url: string }, prisma: PrismaClient) => {
-  return await prisma.link.create({
+const createUrl = (input: { url: string }, prisma: PrismaClient) => {
+  return prisma.link.create({
     data: {
       url: input.url,
       urlIndex: generateUrl(),
-      // urlIndex: "1231",
     },
   });
 };
 
 export const linksRouter = createRouter().mutation("create-link", {
   input: z.object({
-    url: z.string().url("That URL isn't valid!"),
+    url: z
+      .string()
+      .regex(
+        /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+        "That URL isn't valid!"
+      ),
   }),
   async resolve({ input, ctx: { prisma } }) {
     while (true) {
       try {
-        createUrl(input, prisma);
-        break;
+        return await createUrl(input, prisma);
       } catch (e) {}
     }
   },
