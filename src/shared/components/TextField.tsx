@@ -21,13 +21,13 @@ const TextField: FC<TextFieldProps> = ({
     if (autoFocus) {
       inputRef.current?.focus();
     }
-  }, []);
+  }, [autoFocus, inputRef.current]);
 
   return (
     <div className={className}>
       <div
         className={classNames(
-          "w-full relative border-2 text-white border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-blue-600 focus-within:border-blue-600",
+          "w-full relative border text-white border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-amber-600 focus-within:border-amber-600",
           {
             "text-white border-gray-300": !error,
             "text-red-600 border-red-600": !!error,
@@ -36,7 +36,7 @@ const TextField: FC<TextFieldProps> = ({
       >
         <label
           htmlFor={id}
-          className="absolute -top-2 left-2 -mt-px inline-block px-1 text-xs font-semibold bg-slate-800"
+          className="absolute -top-2 left-2 -mt-px inline-block px-1 text-xs font-semibold bg-black"
         >
           {label}
         </label>

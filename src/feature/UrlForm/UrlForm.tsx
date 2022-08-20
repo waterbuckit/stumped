@@ -19,7 +19,7 @@ const UrlForm: FC<UrlFormProps> = ({
   isLoading,
 }) => (
   <form
-    className="w-full flex items-center gap-7"
+    className="w-full flex flex-col sm:flex-row items-center gap-7"
     noValidate
     onSubmit={handleSubmit}
   >
@@ -28,7 +28,7 @@ const UrlForm: FC<UrlFormProps> = ({
       value={url}
       autoFocus
       placeholder="a really long url..."
-      className="flex-1"
+      className="flex-1 w-full sm:w-auto"
       label="URL"
       id="url"
       type="url"

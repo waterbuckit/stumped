@@ -2,24 +2,6 @@ import { createRouter } from "./context";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 
-const chars =
-  "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890".split("");
-
-const generateUrl = (): string =>
-  new Array<string>(7)
-    .fill("")
-    .map(() => chars[Math.floor(Math.random() * chars.length)])
-    .join("");
-
-const createUrl = (input: { url: string }, prisma: PrismaClient) => {
-  return prisma.link.create({
-    data: {
-      url: input.url,
-      urlIndex: generateUrl(),
-    },
-  });
-};
-
 export const linksRouter = createRouter().mutation("create-link", {
   input: z.object({
     url: z
@@ -30,10 +12,22 @@ export const linksRouter = createRouter().mutation("create-link", {
       ),
   }),
   async resolve({ input, ctx: { prisma } }) {
-    while (true) {
-      try {
-        return await createUrl(input, prisma);
-      } catch (e) {}
-    }
+    const existing = await prisma.link.findUnique({
+      where: { url: input.url}
+    })
+    
+    if (existing) return existing;
+    
+    const firstUnused = await prisma.link.findFirst({
+      where: { url: null },
+    })
+
+    return await prisma.link.update({
+      where: { id: firstUnused?.id },
+      data: {
+        url: input.url, 
+        updatedAt: new Date()
+      }
+    })
   },
 });

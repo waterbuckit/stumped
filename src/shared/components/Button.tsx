@@ -14,7 +14,7 @@ const Button: FC<ButtonProps> = (
   return (
     <button
       type="button"
-      className={classNames("inline-flex disabled:opacity-50 items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", className)}
+      className={classNames("inline-flex disabled:opacity-50 items-center px-3 py-2 border-2 border-black shadow-sm text-sm leading-4 font-medium rounded-md text-black bg-white focus:outline-none focus:ring-2 focus:ring-amber-600", className)}
       disabled={loading ? true : disabled }
       {...props}
     >

@@ -6,12 +6,17 @@ const useUrlForm = () => {
   const [url, setUrl] = useState<string>("");
   const [link, setLink] = useState<Link | null>(null);
 
+  const clearForm = useCallback(() => setUrl(''), [setUrl])
+
   const {
     mutate,
     isLoading,
     error: createURLError,
   } = trpc.useMutation(["links.create-link"], {
-    onSuccess: (data: Link) => setLink(data),
+    onSuccess: (data: Link) => {
+      clearForm()
+      setLink(data)
+    },
   });
 
   const handleChangeUrl = (e: FormEvent<HTMLInputElement>) =>
